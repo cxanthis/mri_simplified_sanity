@@ -1,4 +1,4 @@
-import { defineType, defineField } from "sanity";
+import { defineType, defineField, SanityDocument } from "sanity";
 
 export const researchTopics = defineType({
   name: "researchTopics",
@@ -9,8 +9,9 @@ export const researchTopics = defineType({
       name: "id",
       title: "ID",
       type: "number",
-      readOnly: true,
-      description: "Auto-incremented unique identifier",
+      readOnly: false,
+      description: "Use it as a unique identifier",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "title",
@@ -23,7 +24,12 @@ export const researchTopics = defineType({
       title: "Slug",
       type: "slug",
       options: {
-        source: "title",
+        source: (doc: SanityDocument): string => {
+          const data = doc as any
+          const idPart = data.id ? data.id.toString() : ''
+          const titlePart = data.title || ''
+          return idPart ? `${idPart}-${titlePart}` : titlePart
+        },
         maxLength: 200,
         slugify: (input: string) =>
           input

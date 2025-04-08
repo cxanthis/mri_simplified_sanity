@@ -1,4 +1,4 @@
-import { defineType, defineField } from "sanity";
+import { defineType, defineField, SanityDocument } from "sanity";
 
 export const articles = defineType({
   name: "articles",
@@ -12,11 +12,22 @@ export const articles = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "content_id",
+      title: "Content ID",
+      type: "number",
+      validation: (Rule) => Rule.required().integer().positive(),
+    }),
+    defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
       options: {
-        source: "title",
+        source: (doc: SanityDocument): string => {
+          const data = doc as any
+          const idPart = data.content_id ? data.content_id.toString() : ''
+          const titlePart = data.title || ''
+          return idPart ? `${idPart}-${titlePart}` : titlePart
+        },
         maxLength: 200,
         slugify: (input: string) =>
           input
@@ -67,12 +78,6 @@ export const articles = defineType({
       name: "simplified",
       title: "Simplified Version",
       type: "text",
-    }),
-    defineField({
-      name: "content_id",
-      title: "Content ID",
-      type: "number",
-      validation: (Rule) => Rule.required().integer().positive(),
     }),
     defineField({
       name: "chapter_id",
