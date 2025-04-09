@@ -39,21 +39,44 @@ export const articles = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-        name: "articleType",
-        title: "Article Type",
-        type: "string",
-        options: {
-            list: [
-            { title: "Part", value: "part" },
-            { title: "Chapter", value: "chapter" },
-            { title: "Section", value: "section" },
-            { title: "Sub-section", value: "sub-section" },
-            { title: "Topic", value: "topic" },
-            ],
-            layout: "radio", // Can be "dropdown" or "radio"
-        },
-        validation: (Rule) => Rule.required(),
-        }),
+      name: "articleType",
+      title: "Article Type",
+      type: "string",
+      options: {
+          list: [
+          { title: "Part", value: "part" },
+          { title: "Chapter", value: "chapter" },
+          { title: "Section", value: "section" },
+          { title: "Sub-section", value: "sub-section" },
+          { title: "Topic", value: "topic" },
+          ],
+          layout: "radio", // Can be "dropdown" or "radio"
+      },
+      validation: (Rule) => Rule.required(),
+      }),
+    defineField({
+      name: 'previousArticle',
+      title: 'Previous Article',
+      type: 'reference',
+      description: 'Link to the previous article',
+      to: [{ type: 'articles' }],
+    }),
+    // New reference for the next article
+    defineField({
+      name: 'nextArticle',
+      title: 'Next Article',
+      type: 'reference',
+      description: 'Link to the next article',
+      to: [{ type: 'articles' }]
+    }),
+    // New reference for the parent article
+    defineField({
+      name: 'parentArticle',
+      title: 'Parent Article',
+      type: 'reference',
+      description: 'Link to the parent article',
+      to: [{ type: 'articles' }],
+    }),
     defineField({
       name: "body",
       title: "Body",
