@@ -109,38 +109,174 @@ export const articles = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-        name: "seo",
-        title: "SEO Metadata",
-        type: "object",
-        fields: [
+      name: "seo",
+      title: "SEO",
+      type: "object",
+      fields: [
+        // Basic SEO Fields
+        defineField({
+          name: "seoTitle",
+          title: "SEO Title",
+          type: "string",
+          description: "A concise title for SEO purposes.",
+        }),
+        defineField({
+          name: "seoDescription",
+          title: "SEO Description",
+          type: "text",
+          rows: 3,
+          description: "A brief summary ideally under 160 characters.",
+        }),
+        defineField({
+          name: "seoKeywords",
+          title: "SEO Keywords",
+          type: "string",
+          description: "Comma-separated list of targeted keywords.",
+        }),
+        defineField({
+          name: "canonicalUrl",
+          title: "Canonical URL",
+          type: "url",
+          description:
+            "The canonical URL for this article to prevent duplicate content issues.",
+        }),
+        defineField({
+          name: "structuredData",
+          title: "Structured Data (JSON‑LD)",
+          type: "text",
+          description:
+            "Insert JSON‑LD structured data (e.g., schema.org/Article) to enhance rich snippets.",
+        }),
+        defineField({
+          name: "metaRobots",
+          title: "Meta Robots",
+          type: "string",
+          options: {
+            list: [
+              { title: "Index, Follow", value: "index, follow" },
+              { title: "Noindex, Nofollow", value: "noindex, nofollow" },
+            ],
+          },
+          description: "Control indexing and crawling of this page.",
+        }),
+        // Open Graph Metadata
+        defineField({
+          name: "og",
+          title: "Open Graph Metadata",
+          type: "object",
+          fields: [
             defineField({
-            name: "metaTitle",
-            title: "Meta Title",
-            type: "string",
-            validation: (Rule) => Rule.max(60),
+              name: "ogTitle",
+              title: "OG Title",
+              type: "string",
+              description: "Title for social sharing via Open Graph.",
             }),
             defineField({
-            name: "metaDescription",
-            title: "Meta Description",
-            type: "text",
-            validation: (Rule) => Rule.max(160),
+              name: "ogDescription",
+              title: "OG Description",
+              type: "text",
+              rows: 3,
+              description: "Description for social sharing via Open Graph.",
             }),
             defineField({
-            name: "ogImage",
-            title: "Open Graph Image",
-            type: "image",
-            options: { hotspot: true },
+              name: "ogImage",
+              title: "OG Image",
+              type: "image",
+              options: { hotspot: true },
+              description:
+                "Image used for social sharing on platforms like Facebook.",
+            }),
+          ],
+        }),
+
+        // Twitter Card Metadata
+        defineField({
+          name: "twitter",
+          title: "Twitter Card Metadata",
+          type: "object",
+          fields: [
+            defineField({
+              name: "twitterTitle",
+              title: "Twitter Title",
+              type: "string",
+              description: "Title for Twitter card.",
             }),
             defineField({
-            name: "ogType",
-            title: "Open Graph Type",
-            type: "string",
-            options: {
-                list: ["website", "article", "profile", "video"],
-                layout: "radio",
-            },
+              name: "twitterDescription",
+              title: "Twitter Description",
+              type: "text",
+              rows: 3,
+              description: "Description for Twitter card.",
             }),
-        ],
+            defineField({
+              name: "twitterImage",
+              title: "Twitter Image",
+              type: "image",
+              options: { hotspot: true },
+              description:
+                "Image used for Twitter sharing.",
+            }),
+          ],
+        }),
+        // Publication dates for content freshness
+        defineField({
+          name: "publishedAt",
+          title: "Published At",
+          type: "datetime",
+          description: "The date and time the article was first published.",
+        }),
+        defineField({
+          name: "updatedAt",
+          title: "Updated At",
+          type: "datetime",
+          description: "The date and time the article was last updated.",
+        }),
+
+        // Author information to enhance credibility
+        defineField({
+          name: "author",
+          title: "Author",
+          type: "object",
+          fields: [
+            defineField({
+              name: "name",
+              title: "Name",
+              type: "string",
+            }),
+            defineField({
+              name: "bio",
+              title: "Bio",
+              type: "text",
+              rows: 3,
+              description: "A short biography of the author.",
+            }),
+            defineField({
+              name: "profileImage",
+              title: "Profile Image",
+              type: "image",
+              options: { hotspot: true },
+              description: "Profile picture of the author.",
+            }),
+            defineField({
+              name: "social",
+              title: "Social Profiles",
+              type: "object",
+              fields: [
+                defineField({
+                  name: "twitter",
+                  title: "Twitter URL",
+                  type: "url",
+                }),
+                defineField({
+                  name: "linkedin",
+                  title: "LinkedIn URL",
+                  type: "url",
+                }),
+              ],
+            })
+          ],
+        }),
+      ],
     }),
   ],
 });
